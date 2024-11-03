@@ -54,7 +54,7 @@ class TestDecryption(unittest.TestCase):
 
         a = random.randint(3400, 7200)
         b = random.randint(96000, 125000)
-        l = a+b
+        l = a + b
         c = random.randint(0, len(corpus)-l)
 
         M = corpus[c:c+l]
