@@ -1,3 +1,25 @@
+caractere = ['E', 'A', 'S', 'I', 'N', 'T', 'R', 'U', 'L', 'O', 'D', 'C', 'M', 'P', 'H', 'Q', 'F', 'V', 'G', 'B', 'J', 'X', 'Y', 'Z', 'K', 'W']
+
+# Ouvrir le fichier en mode lecture
+with open('bicaractere.txt', 'r') as file:
+    # Lire toutes les lignes du fichier
+    lines = file.readlines()
+
+# Traiter les lignes pour créer une liste de tuples
+bicaratere = []
+for line in lines:
+    # Supprimer les espaces et sauts de ligne
+    parts = line.strip().split()
+    if len(parts) == 2:  # Vérifier qu'il y a deux éléments
+        code = parts[0]  # Le premier élément (code)
+        bicaratere.append(code)  # Ajouter le tuple à la liste
+
+# Afficher les données importées
+print(bicaratere)
+
+
+
+
 def decrypt(C):
   M = ""
   #entrez votre code ici.
@@ -9,9 +31,18 @@ def decrypt(C):
   liste_bytes = [C[i:i+8] for i in range(0, len(C), 8)]
 
   liste_frequence = frequence_bytes(liste_bytes)
-  print(liste_frequence)
+
+  # trie les bytes dans une liste de fréquence décroissante
+  bytes_sort = frequence_sort(liste_frequence)
 
 
+
+  # Création du mapping basé sur les fréquences (présumé)
+  mapping = {bytes_sort[i]: bicaratere[i] for i in range(len(bytes_sort))}
+  print(mapping)
+
+  # Déchiffre le cryptogramme en appliquant le mapping
+  M = substituer(liste_bytes, mapping)
 
   return M
 
@@ -32,8 +63,21 @@ def frequence_bytes(liste_bytes):
   return dictionnaire
 
 
+def frequence_sort(dictionnaire):
+  freq_sort = sorted(dictionnaire, key=dictionnaire.get, reverse=True)
+  return freq_sort
 
 
+
+def substituer(cryptogramme, mapping):
+    # Remplace chaque lettre du cryptogramme par la lettre correspondante dans le mapping
+    M = ""
+    for lettre in cryptogramme:
+      if lettre in mapping:
+        M += mapping[lettre]
+      else:
+        M += lettre  # Conserve les caractères non-alphabétiques
+    return M
 
 
 
