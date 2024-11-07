@@ -83,7 +83,6 @@ def decrypt(C):
   #entrez votre code ici.
   #Vous pouvez créer des fonctions auxiliaires et adapter le code à votre façon mais decrypt dois renvoyer le message décrypté
 
-  C = C[0:1024] # todo a enlever juste pour les tests
 
   # couper la chaine C tous les 8 caractères pour obtenir des bytes
   liste_bytes = [C[i:i+8] for i in range(0, len(C), 8)]
