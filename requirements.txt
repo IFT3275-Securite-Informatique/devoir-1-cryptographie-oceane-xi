@@ -1,3 +1,18 @@
 pytest
 numpy
 requests
+
+
+nb_bytes = len(symbole)
+  dictionnaire = {}
+
+  for byte in liste_bytes:
+    if byte in dictionnaire:
+      dictionnaire[byte] += 1
+    else:
+      dictionnaire[byte] = 1
+
+  for cle in dictionnaire:
+    dictionnaire[cle] = round(dictionnaire[cle] / nb_bytes * 100 , 1) # todo à enlever round
+
+  return dictionnaire
