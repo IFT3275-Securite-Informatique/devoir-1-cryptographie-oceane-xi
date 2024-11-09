@@ -4,35 +4,38 @@ import numpy as np
 import requests
 from collections import Counter
 
+
 def cut_string_into_pairs(text):
-  pairs = []
-  for i in range(0, len(text) - 1, 2):
-    pairs.append(text[i:i + 2])
-  if len(text) % 2 != 0:
-    pairs.append(text[-1] + '_')  # Add a placeholder if the string has an odd number of characters
-  return pairs
+    pairs = []
+    for i in range(0, len(text) - 1, 2):
+        pairs.append(text[i:i + 2])
+    if len(text) % 2 != 0:
+        pairs.append(text[-1] + '_')  # Add a placeholder if the string has an odd number of characters
+    return pairs
+
 
 def load_text_from_web(url):
-  try:
-    response = requests.get(url)
-    response.raise_for_status()  # Raise an exception for bad status codes
-    return response.text
-  except requests.exceptions.RequestException as e:
-    print(f"An error occurred while loading the text: {e}")
-    return None
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an exception for bad status codes
+        return response.text
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred while loading the text: {e}")
+        return None
+
 
 def gen_key(symboles):
+    l = len(symboles)
+    if l > 256:
+        return False
 
-  l=len(symboles)
-  if l > 256:
-    return False
+    rnd.seed(1337)
+    int_keys = rnd.sample(list(range(l)), l)
+    dictionary = dict({})
+    for s, k in zip(symboles, int_keys):
+        dictionary[s] = "{:08b}".format(k)
+    return dictionary
 
-  rnd.seed(1337)
-  int_keys = rnd.sample(list(range(l)),l)
-  dictionary = dict({})
-  for s,k in zip(symboles,int_keys):
-    dictionary[s]="{:08b}".format(k )
-  return dictionary
 
 def M_vers_symboles(M, K, dictionaire):
     encoded_text = []
@@ -57,10 +60,11 @@ def M_vers_symboles(M, K, dictionaire):
 
     return encoded_text
 
-def chiffrer(M,K, dictionnaire):
-  l = M_vers_symboles(M, K, dictionnaire)
-  l = [K[x] for x in l]
-  return ''.join(l)
+
+def chiffrer(M, K, dictionnaire):
+    l = M_vers_symboles(M, K, dictionnaire)
+    l = [K[x] for x in l]
+    return ''.join(l)
 
 
 def chiffrer2(M, K) -> str:
