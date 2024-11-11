@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+
+\title{IFT3275 - Devoir 1}
+\author{Oceane Hays - Xi Chen}
+\date{November 2024}
+
+
+\begin{document}
+
+
+\maketitle
+
+\section{Chercher la célébrité}
+1. Pour trouver le message \( M \) chiffré avec une clé publique \( (N, e) \), on utilise le fait que dans le chiffrement RSA, le message chiffré \( C \) est obtenu par \( C = M^e \mod N \). Cette expression donne le reste de la division entière de \( M^e \) par \( N \). On sait que \( e = 3 \), et en le remplaçant dans la formule, on obtient \( C = M^3 \mod N \).
+
+Puisque \( e \) est un petit nombre, on réalise que si \( M \) est assez court, c'est-à-dire que \( M^3 < N \), le modulo sera trop grand et donnera simplement \( C = M^3 \). Cela nous permettrait de trouver la réponse sans avoir la clé privée. En procédant avec cette hypothèse, le message \( M \) serait donné par la racine cubique de \( C \), calculée à \( 103275247704828660521722735 \). Après avoir converti \( M \), on trouve le nom d'un personnage célèbre, Umberto Eco. 
+\\
+\\
+
+2. Pour décrypter ce message RSA, où \( e = 173 \), nous devons passer par la formule \( M = C^d \mod N \). On sait que la clé privée \( d \) est obtenue en calculant l'inverse de \( e \mod ((p-1)(q-1)) \). Il faut donc commencer par trouver \( p \) et \( q \), les deux facteurs premiers de \( N \). Cette tâche s'avère très difficile car \( N \) est un entier extrêmement grand, alors il a fallu utiliser la calculatrice de factorisation de Alpertron pour les obtenir.
+
+Après avoir calculé \( d \) à l'aide de la fonction \( \text{modinv}(a, b) \), on procède au calcul du message \( M \) en appelant \( \text{modular\_pow}(C, d, N) \), ce qui donne \( 6130726846479654805442422731636 \). Finalement, le message converti nous donne le nom de l'auteur célèbre : Marcel Proulx.
+
+\section{Décrypter le code}
+
+Ce programme est conçu pour briser un code de substitution mono et
+bi-alphabétique en utilisant une méthode d\textquotesingle analyse
+fréquentielle. Il commence par charger deux fichiers texte à partir
+d\textquotesingle URLs spécifiées et les combine en une seule chaîne de
+caractères. Puis, le texte est analysé pour identifier les caractères
+uniques et les paires de caractères les plus fréquentes (bi-caractères),
+en se basant sur leur fréquence d\textquotesingle apparition dans le
+texte. Ces symboles (caractères et paires de caractères) sont utilisés
+pour établir un ensemble de symboles potentiels qui seront comparés avec
+les octets du texte chiffré. \\
+Lafonction~occurence\_dictionnaire~parcourt le texte pour calculer la
+fréquence d\textquotesingle apparition de chaque symbole, en tenant
+compte à la fois des caractères simples et des paires de caractères.
+Cette fonction génère un dictionnaire des symboles et de leurs
+occurrences, puis les trie par fréquence décroissante à
+l\textquotesingle aide de la fonction~sort\_liste. La fonction~decrypt
+prend un texte chiffré sous forme de chaîne binaire, le divise en octets
+de 8 bits et compte la fréquence de chaque octet. Elle trie ces octets
+par fréquence et utilise ensuite un dictionnaire de correspondance entre
+les fréquences des symboles dans le texte clair et celles des octets
+pour établir une traduction. La fonction~creer\_Traduction~crée ce
+dictionnaire en associant chaque octet du texte chiffré à un symbole de
+texte en clair basé sur les fréquences observées. Cette traduction
+permet de déchiffrer le message chiffré et de produire une version
+lisible du texte original. Ce processus repose sur
+l\textquotesingle hypothèse que la fréquence des symboles dans le texte
+chiffré suit une distribution similaire à celle du texte en français, ce
+qui est typique des ciphers de substitution mono et bi-alphabétiques.
+
+
+\end{document}
